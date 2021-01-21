@@ -260,7 +260,7 @@ function newUser() {
         }
     }
 
-    function validButton() {
+    //function validButton() {
         fetch('http://localhost:8080/api/create', {
             method: 'POST',
             body: JSON.stringify({
@@ -295,9 +295,9 @@ function newUser() {
 
                 $('#NewUserCreated').modal();
             });
-        [...$$('input')].forEach(node => node.value.length == 0 ? event.preventDefault() :
-            validButton())
-    }
+        // [...$$('input')].forEach(node => node.value.length == 0 ? event.preventDefault() :
+        //     validButton())
+
 }
 showAllUsers();
 
