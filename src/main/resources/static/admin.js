@@ -157,7 +157,7 @@ function getModalEdit(id) {
                 }
             }
 
-            //let modal = document.getElementById('modalWindow');
+            let modal = document.getElementById('modalWindow');
 
             modal.innerHTML =
                 '<div id="modalEdit"' +
@@ -260,40 +260,44 @@ function newUser() {
         }
     }
 
-    fetch('http://localhost:8080/api/create', {
-        method: 'POST',
-        body: JSON.stringify({
-            name: window.formNewUser.newName.value,
-            lastName: window.formNewUser.newLastName.value,
-            age: window.formNewUser.newAge.value,
-            email: window.formNewUser.newEmail.value,
-            password: window.formNewUser.newPassword.value,
-            roles: new_Roles
-        }),
-        headers: {"Content-type": "application/json; charset=UTF-8"}
-    })
-        .then(response => response.json())
-        .then(user => {
-            $('#tBody tr:last').after('<tr id=' + user.id + '>' +
-                '<td>' + user.id + '</td>' +
-                '<td>' + window.formNewUser.newName.value + '</td>' +
-                '<td>' + window.formNewUser.newLastName.value + '</td>' +
-                '<td>' + window.formNewUser.newAge.value + '</td>' +
-                '<td>' + window.formNewUser.newEmail.value + '</td>' +
-                '<td>' + rolesList.textContent + '</td>' +
-                '<td> <button type="button" onclick="getModalEdit(' + user.id + ')" class="btn btn-primary btn-sm">Edit</button> </td>' +
-                '<td> <button type="button" onclick="getModalDelete(' + user.id + ')" class="btn btn-danger btn-sm">Delete</button> </td>' +
-                '</tr>');
+    function validButton() {
+        fetch('http://localhost:8080/api/create', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: window.formNewUser.newName.value,
+                lastName: window.formNewUser.newLastName.value,
+                age: window.formNewUser.newAge.value,
+                email: window.formNewUser.newEmail.value,
+                password: window.formNewUser.newPassword.value,
+                roles: new_Roles
+            }),
+            headers: {"Content-type": "application/json; charset=UTF-8"}
+        })
+            .then(response => response.json())
+            .then(user => {
+                $('#tBody tr:last').after('<tr id=' + user.id + '>' +
+                    '<td>' + user.id + '</td>' +
+                    '<td>' + window.formNewUser.newName.value + '</td>' +
+                    '<td>' + window.formNewUser.newLastName.value + '</td>' +
+                    '<td>' + window.formNewUser.newAge.value + '</td>' +
+                    '<td>' + window.formNewUser.newEmail.value + '</td>' +
+                    '<td>' + rolesList.textContent + '</td>' +
+                    '<td> <button type="button" onclick="getModalEdit(' + user.id + ')" class="btn btn-primary btn-sm">Edit</button> </td>' +
+                    '<td> <button type="button" onclick="getModalDelete(' + user.id + ')" class="btn btn-danger btn-sm">Delete</button> </td>' +
+                    '</tr>');
 
-            window.formNewUser.newName.value = "";
-            window.formNewUser.newLastName.value = "";
-            window.formNewUser.newAge.value = "";
-            window.formNewUser.newEmail.value = "";
-            window.formNewUser.newPassword.value = "";
-            window.formNewUser.newRoles.value = "";
+                window.formNewUser.newName.value = "";
+                window.formNewUser.newLastName.value = "";
+                window.formNewUser.newAge.value = "";
+                window.formNewUser.newEmail.value = "";
+                window.formNewUser.newPassword.value = "";
+                window.formNewUser.newRoles.value = "";
 
-            $('#NewUserCreated').modal();
-        });
+                $('#NewUserCreated').modal();
+            });
+        [...$$('input')].forEach(node => node.value.length == 0 ? event.preventDefault() :
+            validButton())
+    }
 }
 showAllUsers();
 
